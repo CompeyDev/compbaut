@@ -24,8 +24,8 @@ from core.utils import *
 logger = getLogger(__name__)
 
 
-class Modmail(commands.Cog):
-    """Commands directly related to Modmail functionality."""
+class compbaut(commands.Cog):
+    """Commands directly related to compbaut functionality."""
 
     def __init__(self, bot):
         self.bot = bot
@@ -35,30 +35,30 @@ class Modmail(commands.Cog):
     @checks.has_permissions(PermissionLevel.OWNER)
     async def setup(self, ctx):
         """
-        Sets up a server for Modmail.
+        Sets up a server for compbaut.
 
         You only need to run this command
-        once after configuring Modmail.
+        once after configuring compbaut.
         """
 
-        if ctx.guild != self.bot.modmail_guild:
-            return await ctx.send(f"You can only setup in the Modmail guild: {self.bot.modmail_guild}.")
+        if ctx.guild != self.bot.compbaut_guild:
+            return await ctx.send(f"You can only setup in the compbaut guild: {self.bot.compbaut_guild}.")
 
         if self.bot.main_category is not None:
             logger.debug("Can't re-setup server, main_category is found.")
-            return await ctx.send(f"{self.bot.modmail_guild} is already set up.")
+            return await ctx.send(f"{self.bot.compbaut_guild} is already set up.")
 
-        if self.bot.modmail_guild is None:
+        if self.bot.compbaut_guild is None:
             embed = discord.Embed(
                 title="Error",
-                description="Modmail functioning guild not found.",
+                description="compbaut functioning guild not found.",
                 color=self.bot.error_color,
             )
             return await ctx.send(embed=embed)
 
         overwrites = {
-            self.bot.modmail_guild.default_role: discord.PermissionOverwrite(read_messages=False),
-            self.bot.modmail_guild.me: discord.PermissionOverwrite(read_messages=True),
+            self.bot.compbaut_guild.default_role: discord.PermissionOverwrite(read_messages=False),
+            self.bot.compbaut_guild.me: discord.PermissionOverwrite(read_messages=True),
         }
 
         for level in PermissionLevel:
@@ -68,20 +68,20 @@ class Modmail(commands.Cog):
             for perm in permissions:
                 perm = int(perm)
                 if perm == -1:
-                    key = self.bot.modmail_guild.default_role
+                    key = self.bot.compbaut_guild.default_role
                 else:
-                    key = self.bot.modmail_guild.get_member(perm)
+                    key = self.bot.compbaut_guild.get_member(perm)
                     if key is None:
-                        key = self.bot.modmail_guild.get_role(perm)
+                        key = self.bot.compbaut_guild.get_role(perm)
                 if key is not None:
-                    logger.info("Granting %s access to Modmail category.", key.name)
+                    logger.info("Granting %s access to compbaut category.", key.name)
                     overwrites[key] = discord.PermissionOverwrite(read_messages=True)
 
-        category = await self.bot.modmail_guild.create_category(name="Modmail", overwrites=overwrites)
+        category = await self.bot.compbaut_guild.create_category(name="compbaut", overwrites=overwrites)
 
         await category.edit(position=0)
 
-        log_channel = await self.bot.modmail_guild.create_text_channel(name="bot-logs", category=category)
+        log_channel = await self.bot.compbaut_guild.create_text_channel(name="bot-logs", category=category)
 
         embed = discord.Embed(
             title="Friendly Reminder",
@@ -94,7 +94,7 @@ class Modmail(commands.Cog):
         embed.add_field(
             name="Thanks for using our bot!",
             value="If you like what you see, consider giving the "
-            "[repo a star](https://github.com/kyb3r/modmail) :star: and if you are "
+            "[repo a star](https://github.com/kyb3r/compbaut) :star: and if you are "
             "feeling extra generous, buy us coffee on [Patreon](https://patreon.com/kyber) :heart:!",
         )
 
@@ -108,7 +108,7 @@ class Modmail(commands.Cog):
         await ctx.send(
             "**Successfully set up server.**\n"
             "Consider setting permission levels to give access to roles "
-            "or users the ability to use Modmail.\n\n"
+            "or users the ability to use compbaut.\n\n"
             f"Type:\n- `{self.bot.prefix}permissions` and `{self.bot.prefix}permissions add` "
             "for more info on setting permissions.\n"
             f"- `{self.bot.prefix}config help` for a list of available customizations."
@@ -584,7 +584,7 @@ class Modmail(commands.Cog):
     @checks.has_permissions(PermissionLevel.SUPPORTER)
     @checks.thread_only()
     async def nsfw(self, ctx):
-        """Flags a Modmail thread as NSFW (not safe for work)."""
+        """Flags a compbaut thread as NSFW (not safe for work)."""
         await ctx.channel.edit(nsfw=True)
         sent_emoji, _ = await self.bot.retrieve_emoji()
         await self.bot.add_reaction(ctx.message, sent_emoji)
@@ -593,7 +593,7 @@ class Modmail(commands.Cog):
     @checks.has_permissions(PermissionLevel.SUPPORTER)
     @checks.thread_only()
     async def sfw(self, ctx):
-        """Flags a Modmail thread as SFW (safe for work)."""
+        """Flags a compbaut thread as SFW (safe for work)."""
         await ctx.channel.edit(nsfw=False)
         sent_emoji, _ = await self.bot.retrieve_emoji()
         await self.bot.add_reaction(ctx.message, sent_emoji)
@@ -682,7 +682,7 @@ class Modmail(commands.Cog):
     @checks.thread_only()
     @commands.cooldown(1, 600, BucketType.channel)
     async def adduser(self, ctx, *users_arg: Union[discord.Member, discord.Role, str]):
-        """Adds a user to a modmail thread
+        """Adds a user to a compbaut thread
 
         `options` can be `silent` or `silently`.
         """
@@ -776,7 +776,7 @@ class Modmail(commands.Cog):
     @checks.thread_only()
     @commands.cooldown(1, 600, BucketType.channel)
     async def removeuser(self, ctx, *users_arg: Union[discord.Member, discord.Role, str]):
-        """Removes a user from a modmail thread
+        """Removes a user from a compbaut thread
 
         `options` can be `silent` or `silently`.
         """
@@ -855,7 +855,7 @@ class Modmail(commands.Cog):
     @checks.thread_only()
     @commands.cooldown(1, 600, BucketType.channel)
     async def anonadduser(self, ctx, *users_arg: Union[discord.Member, discord.Role, str]):
-        """Adds a user to a modmail thread anonymously
+        """Adds a user to a compbaut thread anonymously
 
         `options` can be `silent` or `silently`.
         """
@@ -945,7 +945,7 @@ class Modmail(commands.Cog):
     @checks.thread_only()
     @commands.cooldown(1, 600, BucketType.channel)
     async def anonremoveuser(self, ctx, *users_arg: Union[discord.Member, discord.Role, str]):
-        """Removes a user from a modmail thread anonymously
+        """Removes a user from a compbaut thread anonymously
 
         `options` can be `silent` or `silently`.
         """
@@ -1029,7 +1029,7 @@ class Modmail(commands.Cog):
     @checks.has_permissions(PermissionLevel.SUPPORTER)
     async def logs(self, ctx, *, user: User = None):
         """
-        Get previous Modmail thread logs of a member.
+        Get previous compbaut thread logs of a member.
 
         Leave `user` blank when this command is used within a
         thread channel to show logs for the current recipient.
@@ -1167,7 +1167,7 @@ class Modmail(commands.Cog):
     @checks.thread_only()
     async def reply(self, ctx, *, msg: str = ""):
         """
-        Reply to a Modmail thread.
+        Reply to a compbaut thread.
 
         Supports attachments and images as well as
         automatically embedding image URLs.
@@ -1183,7 +1183,7 @@ class Modmail(commands.Cog):
     @checks.thread_only()
     async def freply(self, ctx, *, msg: str = ""):
         """
-        Reply to a Modmail thread with variables.
+        Reply to a compbaut thread with variables.
 
         Works just like `{prefix}reply`, however with the addition of three variables:
           - `{{channel}}` - the `discord.TextChannel` object
@@ -1205,7 +1205,7 @@ class Modmail(commands.Cog):
     @checks.thread_only()
     async def fareply(self, ctx, *, msg: str = ""):
         """
-        Anonymously reply to a Modmail thread with variables.
+        Anonymously reply to a compbaut thread with variables.
 
         Works just like `{prefix}areply`, however with the addition of three variables:
           - `{{channel}}` - the `discord.TextChannel` object
@@ -1244,7 +1244,7 @@ class Modmail(commands.Cog):
     @checks.thread_only()
     async def preply(self, ctx, *, msg: str = ""):
         """
-        Reply to a Modmail thread with a plain message.
+        Reply to a compbaut thread with a plain message.
 
         Supports attachments and images as well as
         automatically embedding image URLs.
@@ -1258,7 +1258,7 @@ class Modmail(commands.Cog):
     @checks.thread_only()
     async def pareply(self, ctx, *, msg: str = ""):
         """
-        Reply to a Modmail thread with a plain message and anonymously.
+        Reply to a compbaut thread with a plain message and anonymously.
 
         Supports attachments and images as well as
         automatically embedding image URLs.
@@ -1418,7 +1418,7 @@ class Modmail(commands.Cog):
             return
 
         if self.bot.config["dm_disabled"] in (DMDisabled.NEW_THREADS, DMDisabled.ALL_THREADS):
-            logger.info("Contacting user %s when Modmail DM is disabled.", users[0])
+            logger.info("Contacting user %s when compbaut DM is disabled.", users[0])
 
         if not silent and not self.bot.config.get("thread_contact_silently"):
             if creator.id == users[0].id:
@@ -1634,7 +1634,7 @@ class Modmail(commands.Cog):
         after: UserFriendlyTime = None,
     ):
         """
-        Block a user or role from using Modmail.
+        Block a user or role from using compbaut.
 
         You may choose to set a time as to when the user will automatically be unblocked.
 
@@ -1714,7 +1714,7 @@ class Modmail(commands.Cog):
     @trigger_typing
     async def unblock(self, ctx, *, user_or_role: Union[User, Role] = None):
         """
-        Unblock a user from using Modmail.
+        Unblock a user from using compbaut.
 
         Leave `user` blank when this command is used within a
         thread channel to unblock the current recipient.
@@ -1825,7 +1825,7 @@ class Modmail(commands.Cog):
         )
         if thread is not None:
             logger.debug("Found thread with tempered ID.")
-            await ctx.channel.edit(reason="Fix broken Modmail thread", topic=f"User ID: {user_id}")
+            await ctx.channel.edit(reason="Fix broken compbaut thread", topic=f"User ID: {user_id}")
             return await self.bot.add_reaction(ctx.message, sent_emoji)
 
         # find genesis message to retrieve User ID
@@ -1854,7 +1854,7 @@ class Modmail(commands.Cog):
                         )
                     thread.ready = True
                     logger.info("Setting current channel's topic to User ID and created new thread.")
-                    await ctx.channel.edit(reason="Fix broken Modmail thread", topic=f"User ID: {user_id}")
+                    await ctx.channel.edit(reason="Fix broken compbaut thread", topic=f"User ID: {user_id}")
                     return await self.bot.add_reaction(ctx.message, sent_emoji)
 
         else:
@@ -1906,7 +1906,7 @@ class Modmail(commands.Cog):
                 thread.ready = True
                 logger.info("Setting current channel's topic to User ID and created new thread.")
                 await ctx.channel.edit(
-                    reason="Fix broken Modmail thread", name=name, topic=f"User ID: {user.id}"
+                    reason="Fix broken compbaut thread", name=name, topic=f"User ID: {user.id}"
                 )
                 return await self.bot.add_reaction(ctx.message, sent_emoji)
 
@@ -1918,13 +1918,13 @@ class Modmail(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def enable(self, ctx):
         """
-        Re-enables DM functionalities of Modmail.
+        Re-enables DM functionalities of compbaut.
 
         Undo's the `{prefix}disable` command, all DM will be relayed after running this command.
         """
         embed = discord.Embed(
             title="Success",
-            description="Modmail will now accept all DM messages.",
+            description="compbaut will now accept all DM messages.",
             color=self.bot.main_color,
         )
 
@@ -1938,11 +1938,11 @@ class Modmail(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def disable(self, ctx):
         """
-        Disable partial or full Modmail thread functions.
+        Disable partial or full compbaut thread functions.
 
         To stop all new threads from being created, do `{prefix}disable new`.
-        To stop all existing threads from DMing Modmail, do `{prefix}disable all`.
-        To check if the DM function for Modmail is enabled, do `{prefix}isenable`.
+        To stop all existing threads from DMing compbaut, do `{prefix}disable all`.
+        To check if the DM function for compbaut is enabled, do `{prefix}isenable`.
         """
         await ctx.send_help(ctx.command)
 
@@ -1950,13 +1950,13 @@ class Modmail(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def disable_new(self, ctx):
         """
-        Stop accepting new Modmail threads.
+        Stop accepting new compbaut threads.
 
         No new threads can be created through DM.
         """
         embed = discord.Embed(
             title="Success",
-            description="Modmail will not create any new threads.",
+            description="compbaut will not create any new threads.",
             color=self.bot.main_color,
         )
         if self.bot.config["dm_disabled"] < DMDisabled.NEW_THREADS:
@@ -1969,13 +1969,13 @@ class Modmail(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def disable_all(self, ctx):
         """
-        Disables all DM functionalities of Modmail.
+        Disables all DM functionalities of compbaut.
 
         No new threads can be created through DM nor no further DM messages will be relayed.
         """
         embed = discord.Embed(
             title="Success",
-            description="Modmail will not accept any DM messages.",
+            description="compbaut will not accept any DM messages.",
             color=self.bot.main_color,
         )
 
@@ -1989,25 +1989,25 @@ class Modmail(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def isenable(self, ctx):
         """
-        Check if the DM functionalities of Modmail is enabled.
+        Check if the DM functionalities of compbaut is enabled.
         """
 
         if self.bot.config["dm_disabled"] == DMDisabled.NEW_THREADS:
             embed = discord.Embed(
                 title="New Threads Disabled",
-                description="Modmail is not creating new threads.",
+                description="compbaut is not creating new threads.",
                 color=self.bot.error_color,
             )
         elif self.bot.config["dm_disabled"] == DMDisabled.ALL_THREADS:
             embed = discord.Embed(
                 title="All DM Disabled",
-                description="Modmail is not accepting any DM messages for new and existing threads.",
+                description="compbaut is not accepting any DM messages for new and existing threads.",
                 color=self.bot.error_color,
             )
         else:
             embed = discord.Embed(
                 title="Enabled",
-                description="Modmail now is accepting all DM messages.",
+                description="compbaut now is accepting all DM messages.",
                 color=self.bot.main_color,
             )
 
@@ -2015,4 +2015,4 @@ class Modmail(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Modmail(bot))
+    bot.add_cog(compbaut(bot))

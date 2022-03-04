@@ -38,7 +38,7 @@ from core.paginator import EmbedPaginatorSession, MessagePaginatorSession
 logger = getLogger(__name__)
 
 
-class ModmailHelpCommand(commands.HelpCommand):
+class compbautHelpCommand(commands.HelpCommand):
     async def command_callback(self, ctx, *, command=None):
         """Ovrwrites original command_callback to ensure `help` without any arguments
         returns with checks, `help all` returns without checks"""
@@ -112,7 +112,7 @@ class ModmailHelpCommand(commands.HelpCommand):
         bot = self.context.bot
 
         # always come first
-        default_cogs = [bot.get_cog("Modmail"), bot.get_cog("Utility"), bot.get_cog("Plugins")]
+        default_cogs = [bot.get_cog("compbaut"), bot.get_cog("Utility"), bot.get_cog("Plugins")]
 
         default_cogs.extend(c for c in cogs if c not in default_cogs)
 
@@ -250,7 +250,7 @@ class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._original_help_command = bot.help_command
-        self.bot.help_command = ModmailHelpCommand(
+        self.bot.help_command = compbautHelpCommand(
             command_attrs={
                 "help": "Shows this help message.",
                 "checks": [checks.has_permissions_predicate(PermissionLevel.REGULAR)],
@@ -269,7 +269,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.REGULAR)
     @utils.trigger_typing
     async def changelog(self, ctx, version: str.lower = ""):
-        """Shows the changelog of the Modmail."""
+        """Shows the changelog of the compbaut."""
         changelog = await Changelog.from_url(self.bot)
         version = version.lstrip("v") if version else changelog.latest_version.version
 
@@ -305,7 +305,7 @@ class Utility(commands.Cog):
         """Shows information about this bot."""
         embed = discord.Embed(color=self.bot.main_color, timestamp=datetime.utcnow())
         embed.set_author(
-            name="Modmail - About",
+            name="compbaut - About",
             icon_url=self.bot.user.avatar_url,
             url="https://discord.gg/F34cRU8",
         )
@@ -334,8 +334,8 @@ class Utility(commands.Cog):
             footer = "You are up to date with the latest version."
 
         embed.add_field(
-            name="Want Modmail in Your Server?",
-            value="Follow the installation guide on [GitHub](https://github.com/kyb3r/modmail/) "
+            name="Want compbaut in Your Server?",
+            value="Follow the installation guide on [GitHub](https://github.com/kyb3r/compbaut/) "
             "and join our [Discord server](https://discord.gg/F34cRU8)!",
             inline=False,
         )
@@ -350,7 +350,7 @@ class Utility(commands.Cog):
 
         embed.add_field(
             name="Project Sponsors",
-            value=f"Checkout the people who supported Modmail with command `{self.bot.prefix}sponsors`!",
+            value=f"Checkout the people who supported compbaut with command `{self.bot.prefix}sponsors`!",
             inline=False,
         )
 
@@ -364,7 +364,7 @@ class Utility(commands.Cog):
         """Shows the sponsors of this project."""
 
         async with self.bot.session.get(
-            "https://raw.githubusercontent.com/kyb3r/modmail/master/SPONSORS.json"
+            "https://raw.githubusercontent.com/kyb3r/compbaut/master/SPONSORS.json"
         ) as resp:
             data = loads(await resp.text())
 
@@ -593,8 +593,8 @@ class Utility(commands.Cog):
         url = None
         activity_message = (activity_message or self.bot.config["activity_message"]).strip()
         if activity_type is not None and not activity_message:
-            logger.warning('No activity message found whilst activity is provided, defaults to "Modmail".')
-            activity_message = "Modmail"
+            logger.warning('No activity message found whilst activity is provided, defaults to "compbaut".')
+            activity_message = "compbaut"
 
         if activity_type == ActivityType.listening:
             if activity_message.lower().startswith("to "):
@@ -1184,7 +1184,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.OWNER)
     async def permissions(self, ctx):
         """
-        Set the permissions for Modmail commands.
+        Set the permissions for compbaut commands.
 
         You may set permissions based on individual command names, or permission
         levels.
@@ -1193,7 +1193,7 @@ class Utility(commands.Cog):
             - **Owner** [5] (absolute control over the bot)
             - **Administrator** [4] (administrative powers such as setting activities)
             - **Moderator** [3] (ability to block)
-            - **Supporter** [2] (access to core Modmail supporting functions)
+            - **Supporter** [2] (access to core compbaut supporting functions)
             - **Regular** [1] (most basic interactions such as help and about)
 
         By default, owner is set to the absolute bot owner and regular is `@everyone`.
@@ -1201,7 +1201,7 @@ class Utility(commands.Cog):
         To set permissions, see `{prefix}help permissions add`; and to change permission level for specific
         commands see `{prefix}help permissions override`.
 
-        Note: You will still have to manually give/take permission to the Modmail
+        Note: You will still have to manually give/take permission to the compbaut
         category to users/roles.
         """
         await ctx.send_help(ctx.command)
@@ -1339,13 +1339,13 @@ class Utility(commands.Cog):
             name = level.name
             if level > PermissionLevel.REGULAR:
                 if value == -1:
-                    key = self.bot.modmail_guild.default_role
+                    key = self.bot.compbaut_guild.default_role
                 elif isinstance(user_or_role, discord.Role):
                     key = user_or_role
                 else:
-                    key = self.bot.modmail_guild.get_member(value)
+                    key = self.bot.compbaut_guild.get_member(value)
                 if key is not None:
-                    logger.info("Granting %s access to Modmail category.", key.name)
+                    logger.info("Granting %s access to compbaut category.", key.name)
                     await self.bot.main_category.set_permissions(key, read_messages=True)
 
         embed = discord.Embed(
@@ -1436,17 +1436,17 @@ class Utility(commands.Cog):
         if type_ == "level":
             if level > PermissionLevel.REGULAR:
                 if value == -1:
-                    logger.info("Denying @everyone access to Modmail category.")
+                    logger.info("Denying @everyone access to compbaut category.")
                     await self.bot.main_category.set_permissions(
-                        self.bot.modmail_guild.default_role, read_messages=False
+                        self.bot.compbaut_guild.default_role, read_messages=False
                     )
                 elif isinstance(user_or_role, discord.Role):
-                    logger.info("Denying %s access to Modmail category.", user_or_role.name)
+                    logger.info("Denying %s access to compbaut category.", user_or_role.name)
                     await self.bot.main_category.set_permissions(user_or_role, overwrite=None)
                 else:
-                    member = self.bot.modmail_guild.get_member(value)
-                    if member is not None and member != self.bot.modmail_guild.me:
-                        logger.info("Denying %s access to Modmail category.", member.name)
+                    member = self.bot.compbaut_guild.get_member(value)
+                    if member is not None and member != self.bot.compbaut_guild.me:
+                        logger.info("Denying %s access to compbaut category.", member.name)
                         await self.bot.main_category.set_permissions(member, overwrite=None)
 
         embed = discord.Embed(
@@ -1695,7 +1695,7 @@ class Utility(commands.Cog):
         embed.title = "Success"
 
         if not hasattr(target, "mention"):
-            target = self.bot.get_user(target.id) or self.bot.modmail_guild.get_role(target.id)
+            target = self.bot.get_user(target.id) or self.bot.compbaut_guild.get_role(target.id)
 
         embed.description = f"{'Un-w' if removed else 'W'}hitelisted {target.mention} to view logs."
 
@@ -1714,7 +1714,7 @@ class Utility(commands.Cog):
             user = self.bot.get_user(id_)
             if user:
                 users.append(user)
-            role = self.bot.modmail_guild.get_role(id_)
+            role = self.bot.compbaut_guild.get_role(id_)
             if role:
                 roles.append(role)
 
@@ -1914,7 +1914,7 @@ class Utility(commands.Cog):
     @trigger_typing
     async def update(self, ctx, *, flag: str = ""):
         """
-        Update Modmail.
+        Update compbaut.
         To stay up-to-date with the latest commit rom GitHub, specify "force" as the flag.
         """
 
@@ -1923,7 +1923,7 @@ class Utility(commands.Cog):
 
         desc = (
             f"The latest version is [`{self.bot.version}`]"
-            "(https://github.com/kyb3r/modmail/blob/master/bot.py#L25)"
+            "(https://github.com/kyb3r/compbaut/blob/master/bot.py#L25)"
         )
 
         if self.bot.version >= parse_version(latest.version) and flag.lower() != "force":
@@ -1944,7 +1944,7 @@ class Utility(commands.Cog):
                 if commit_data and commit_data.get("html_url"):
                     embed = discord.Embed(color=self.bot.main_color)
 
-                    embed.set_footer(text=f"Updating Modmail v{self.bot.version} " f"-> v{latest.version}")
+                    embed.set_footer(text=f"Updating compbaut v{self.bot.version} " f"-> v{latest.version}")
 
                     embed.set_author(
                         name=user["username"] + " - Updating bot",
@@ -1998,7 +1998,7 @@ class Utility(commands.Cog):
                         title="Bot has been updated",
                         color=self.bot.main_color,
                     )
-                    embed.set_footer(text=f"Updating Modmail v{self.bot.version} " f"-> v{latest.version}")
+                    embed.set_footer(text=f"Updating compbaut v{self.bot.version} " f"-> v{latest.version}")
                     embed.description = latest.description
                     for name, value in latest.fields.items():
                         embed.add_field(name=name, value=truncate(value, 200))

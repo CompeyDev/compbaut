@@ -379,7 +379,7 @@ def get_top_hoisted_role(member: discord.Member):
 async def create_thread_channel(bot, recipient, category, overwrites, *, name=None, errors_raised=[]):
     name = name or bot.format_channel_name(recipient)
     try:
-        channel = await bot.modmail_guild.create_text_channel(
+        channel = await bot.compbaut_guild.create_text_channel(
             name=name,
             category=category,
             overwrites=overwrites,
@@ -400,7 +400,7 @@ async def create_thread_channel(bot, recipient, category, overwrites, *, name=No
                     category = fallback
 
             if not category:
-                category = await category.clone(name="Fallback Modmail")
+                category = await category.clone(name="Fallback compbaut")
                 bot.config.set("fallback_category_id", str(category.id))
                 await bot.config.update()
 

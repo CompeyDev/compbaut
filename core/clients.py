@@ -22,7 +22,7 @@ class GitHub:
     Parameters
     ----------
     bot : Bot
-        The Modmail bot.
+        The compbaut bot.
     access_token : str, optional
         GitHub's access token.
     username : str, optional
@@ -34,7 +34,7 @@ class GitHub:
     Attributes
     ----------
     bot : Bot
-        The Modmail bot.
+        The compbaut bot.
     access_token : str
         GitHub's access token.
     username : str
@@ -48,22 +48,22 @@ class GitHub:
     BASE : str
         GitHub API base URL.
     REPO : str
-        Modmail repo URL for GitHub API.
+        compbaut repo URL for GitHub API.
     HEAD : str
-        Modmail HEAD URL for GitHub API.
+        compbaut HEAD URL for GitHub API.
     MERGE_URL : str
         URL for merging upstream to master.
     FORK_URL : str
-        URL to fork Modmail.
+        URL to fork compbaut.
     STAR_URL : str
-        URL to star Modmail.
+        URL to star compbaut.
     """
 
     BASE = "https://api.github.com"
-    REPO = BASE + "/repos/kyb3r/modmail"
-    MERGE_URL = BASE + "/repos/{username}/modmail/merges"
+    REPO = BASE + "/repos/kyb3r/compbaut"
+    MERGE_URL = BASE + "/repos/{username}/compbaut/merges"
     FORK_URL = REPO + "/forks"
-    STAR_URL = BASE + "/user/starred/kyb3r/modmail"
+    STAR_URL = BASE + "/user/starred/kyb3r/compbaut"
 
     def __init__(self, bot, access_token: str = "", username: str = "", **kwargs):
         self.bot = bot
@@ -140,7 +140,7 @@ class GitHub:
 
     async def update_repository(self, sha: str = None) -> Optional[dict]:
         """
-        Update the repository from Modmail main repo.
+        Update the repository from compbaut main repo.
         Parameters
         ----------
         sha : Optional[str], optional
@@ -167,17 +167,17 @@ class GitHub:
 
     async def fork_repository(self) -> None:
         """
-        Forks Modmail's repository.
+        Forks compbaut's repository.
         """
         await self.request(self.FORK_URL, method="POST")
 
     async def has_starred(self) -> bool:
         """
-        Checks if shared Modmail.
+        Checks if shared compbaut.
         Returns
         -------
         bool
-            `True`, if Modmail was starred.
+            `True`, if compbaut was starred.
             Otherwise `False`.
         """
         resp = await self.request(self.STAR_URL, return_response=True)
@@ -185,7 +185,7 @@ class GitHub:
 
     async def star_repository(self) -> None:
         """
-        Stars Modmail's repository.
+        Stars compbaut's repository.
         """
         await self.request(self.STAR_URL, method="PUT", headers={"Content-Length": "0"})
 
@@ -196,7 +196,7 @@ class GitHub:
         Parameters
         ----------
         bot : Bot
-            The Modmail bot.
+            The compbaut bot.
         Returns
         -------
         GitHub
@@ -221,12 +221,12 @@ class ApiClient:
     Parameters
     ----------
     bot : Bot
-        The Modmail bot.
+        The compbaut bot.
 
     Attributes
     ----------
     bot : Bot
-        The Modmail bot.
+        The compbaut bot.
     session : ClientSession
         The bot's current running `ClientSession`.
     """
@@ -379,7 +379,7 @@ class MongoDBClient(ApiClient):
                 raise RuntimeError
 
         try:
-            db = AsyncIOMotorClient(mongo_uri).modmail_bot
+            db = AsyncIOMotorClient(mongo_uri).compbaut_bot
         except ConfigurationError as e:
             logger.critical(
                 "Your MongoDB CONNECTION_URI might be copied wrong, try re-copying from the source again. "
@@ -431,7 +431,7 @@ class MongoDBClient(ApiClient):
                     'run "Certificate.command" on MacOS, '
                     'and check certifi is up to date "pip3 install --upgrade certifi".'
                 )
-                self.db = AsyncIOMotorClient(mongo_uri, tlsAllowInvalidCertificates=True).modmail_bot
+                self.db = AsyncIOMotorClient(mongo_uri, tlsAllowInvalidCertificates=True).compbaut_bot
                 return await self.validate_database_connection(ssl_retry=False)
             if "ServerSelectionTimeoutError" in message:
                 logger.critical(

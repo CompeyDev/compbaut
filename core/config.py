@@ -24,7 +24,7 @@ class ConfigManager:
 
     public_keys = {
         # activity
-        "twitch_url": "https://www.twitch.tv/discordmodmail/",
+        "twitch_url": "https://www.twitch.tv/discordcompbaut/",
         # bot settings
         "main_category_id": None,
         "fallback_category_id": None,
@@ -65,13 +65,13 @@ class ConfigManager:
         "thread_contact_silently": False,
         "thread_self_closable_creation_footer": "Click the lock to close the thread",
         "thread_creation_contact_title": "New Thread",
-        "thread_creation_self_contact_response": "You have opened a Modmail thread.",
-        "thread_creation_contact_response": "{creator.name} has opened a Modmail thread.",
+        "thread_creation_self_contact_response": "You have opened a compbaut thread.",
+        "thread_creation_contact_response": "{creator.name} has opened a compbaut thread.",
         "thread_creation_title": "Thread Created",
         "thread_close_footer": "Replying will create a new thread",
         "thread_close_title": "Thread Closed",
-        "thread_close_response": "{closer.mention} has closed this Modmail thread.",
-        "thread_self_close_response": "You have closed this Modmail thread.",
+        "thread_close_response": "{closer.mention} has closed this compbaut thread.",
+        "thread_self_close_response": "You have closed this compbaut thread.",
         "thread_move_title": "Thread Moved",
         "thread_move_notify": False,
         "thread_move_notify_mods": False,
@@ -93,17 +93,17 @@ class ConfigManager:
         "anonymous_snippets": False,
         # group conversations
         "private_added_to_group_title": "New Thread (Group)",
-        "private_added_to_group_response": "{moderator.name} has added you to a Modmail thread.",
-        "private_added_to_group_description_anon": "A moderator has added you to a Modmail thread.",
+        "private_added_to_group_response": "{moderator.name} has added you to a compbaut thread.",
+        "private_added_to_group_description_anon": "A moderator has added you to a compbaut thread.",
         "public_added_to_group_title": "New User",
-        "public_added_to_group_response": "{moderator.name} has added {users} to the Modmail thread.",
-        "public_added_to_group_description_anon": "A moderator has added {users} to the Modmail thread.",
+        "public_added_to_group_response": "{moderator.name} has added {users} to the compbaut thread.",
+        "public_added_to_group_description_anon": "A moderator has added {users} to the compbaut thread.",
         "private_removed_from_group_title": "Removed From Thread (Group)",
-        "private_removed_from_group_response": "{moderator.name} has removed you from the Modmail thread.",
-        "private_removed_from_group_description_anon": "A moderator has removed you from the Modmail thread.",
+        "private_removed_from_group_response": "{moderator.name} has removed you from the compbaut thread.",
+        "private_removed_from_group_description_anon": "A moderator has removed you from the compbaut thread.",
         "public_removed_from_group_title": "User Removed",
-        "public_removed_from_group_response": "{moderator.name} has removed {users} from the Modmail thread.",
-        "public_removed_from_group_description_anon": "A moderator has removed {users} from the Modmail thread.",
+        "public_removed_from_group_response": "{moderator.name} has removed {users} from the compbaut thread.",
+        "public_removed_from_group_description_anon": "A moderator has removed {users} from the compbaut thread.",
         # moderation
         "recipient_color": str(discord.Color.gold()),
         "mod_color": str(discord.Color.green()),
@@ -151,8 +151,8 @@ class ConfigManager:
     }
 
     protected_keys = {
-        # Modmail
-        "modmail_guild_id": None,
+        # compbaut
+        "compbaut_guild_id": None,
         "guild_id": None,
         "log_url": "https://example.com/",
         "log_url_prefix": "/logs",

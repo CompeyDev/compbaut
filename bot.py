@@ -63,7 +63,7 @@ if sys.platform == "win32":
         logger.error("Failed to use WindowsProactorEventLoopPolicy.", exc_info=True)
 
 
-class ModmailBot(commands.Bot):
+class compbautBot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.all()
         super().__init__(command_prefix=None, intents=intents)  # implemented in `get_prefix`
@@ -72,7 +72,7 @@ class ModmailBot(commands.Bot):
         self.metadata_loop = None
         self.autoupdate_loop = None
         self.formatter = SafeFormatter()
-        self.loaded_cogs = ["cogs.modmail", "cogs.plugins", "cogs.utility"]
+        self.loaded_cogs = ["cogs.compbaut", "cogs.plugins", "cogs.utility"]
         self._connected = asyncio.Event()
         self.start_time = datetime.utcnow()
         self._started = False
@@ -415,46 +415,46 @@ class ModmailBot(commands.Bot):
         return discord.utils.get(self.guilds, id=self.guild_id)
 
     @property
-    def modmail_guild(self) -> typing.Optional[discord.Guild]:
+    def compbaut_guild(self) -> typing.Optional[discord.Guild]:
         """
         The guild that the bot is operating in
         (where the bot is creating threads)
         """
-        modmail_guild_id = self.config["modmail_guild_id"]
-        if modmail_guild_id is None:
+        compbaut_guild_id = self.config["compbaut_guild_id"]
+        if compbaut_guild_id is None:
             return self.guild
         try:
-            guild = discord.utils.get(self.guilds, id=int(modmail_guild_id))
+            guild = discord.utils.get(self.guilds, id=int(compbaut_guild_id))
             if guild is not None:
                 return guild
         except ValueError:
             pass
-        self.config.remove("modmail_guild_id")
-        logger.critical("Invalid MODMAIL_GUILD_ID set.")
+        self.config.remove("compbaut_guild_id")
+        logger.critical("Invalid compbaut_GUILD_ID set.")
         return self.guild
 
     @property
     def using_multiple_server_setup(self) -> bool:
-        return self.modmail_guild != self.guild
+        return self.compbaut_guild != self.guild
 
     @property
     def main_category(self) -> typing.Optional[discord.CategoryChannel]:
-        if self.modmail_guild is not None:
+        if self.compbaut_guild is not None:
             category_id = self.config["main_category_id"]
             if category_id is not None:
                 try:
-                    cat = discord.utils.get(self.modmail_guild.categories, id=int(category_id))
+                    cat = discord.utils.get(self.compbaut_guild.categories, id=int(category_id))
                     if cat is not None:
                         return cat
                 except ValueError:
                     pass
                 self.config.remove("main_category_id")
                 logger.debug("MAIN_CATEGORY_ID was invalid, removed.")
-            cat = discord.utils.get(self.modmail_guild.categories, name="Modmail")
+            cat = discord.utils.get(self.compbaut_guild.categories, name="compbaut")
             if cat is not None:
                 self.config["main_category_id"] = cat.id
                 logger.debug(
-                    'No main category set explicitly, setting category "Modmail" as the main category.'
+                    'No main category set explicitly, setting category "compbaut" as the main category.'
                 )
                 return cat
         return None
@@ -554,7 +554,7 @@ class ModmailBot(commands.Bot):
         logger.info("Guild Name: %s", self.guild.name)
         logger.info("Guild ID: %s", self.guild.id)
         if self.using_multiple_server_setup:
-            logger.info("Receiving guild ID: %s", self.modmail_guild.id)
+            logger.info("Receiving guild ID: %s", self.compbaut_guild.id)
         logger.line()
 
         await self.threads.populate_cache()
@@ -633,7 +633,7 @@ class ModmailBot(commands.Bot):
         self.autoupdate_loop.before_loop(self.before_autoupdate)
         self.autoupdate_loop.start()
 
-        other_guilds = [guild for guild in self.guilds if guild not in {self.guild, self.modmail_guild}]
+        other_guilds = [guild for guild in self.guilds if guild not in {self.guild, self.compbaut_guild}]
         if any(other_guilds):
             logger.warning(
                 "The bot is in more servers other than the main and staff server. "
@@ -645,7 +645,7 @@ class ModmailBot(commands.Bot):
         self._started = True
 
     async def convert_emoji(self, name: str) -> str:
-        ctx = SimpleNamespace(bot=self, guild=self.modmail_guild)
+        ctx = SimpleNamespace(bot=self, guild=self.compbaut_guild)
         converter = commands.EmojiConverter()
 
         if name not in UNICODE_EMOJI["en"]:
@@ -894,7 +894,7 @@ class ModmailBot(commands.Bot):
                 return False
         return True
 
-    async def process_dm_modmail(self, message: discord.Message) -> None:
+    async def process_dm_compbaut(self, message: discord.Message) -> None:
         """Processes messages sent to the bot."""
         blocked = await self._process_blocked(message)
         if blocked:
@@ -924,7 +924,7 @@ class ModmailBot(commands.Bot):
                     description=self.config["disabled_new_thread_response"],
                 )
                 embed.set_footer(text=self.config["disabled_new_thread_footer"], icon_url=self.guild.icon_url)
-                logger.info("A new thread was blocked from %s due to disabled Modmail.", message.author)
+                logger.info("A new thread was blocked from %s due to disabled compbaut.", message.author)
                 await self.add_reaction(message, blocked_emoji)
                 return await message.channel.send(embed=embed)
 
@@ -940,7 +940,7 @@ class ModmailBot(commands.Bot):
                     text=self.config["disabled_current_thread_footer"],
                     icon_url=self.guild.icon_url,
                 )
-                logger.info("A message was blocked from %s due to disabled Modmail.", message.author)
+                logger.info("A message was blocked from %s due to disabled compbaut.", message.author)
                 await self.add_reaction(message, blocked_emoji)
                 return await message.channel.send(embed=embed)
 
@@ -1009,7 +1009,7 @@ class ModmailBot(commands.Bot):
         return [ctx]
 
     async def trigger_auto_triggers(self, message, channel, *, cls=commands.Context):
-        message.author = self.modmail_guild.me
+        message.author = self.compbaut_guild.me
         message.channel = channel
         message.guild = channel.guild
 
@@ -1045,7 +1045,7 @@ class ModmailBot(commands.Bot):
             message.content = invoked_prefix + alias
             ctxs += await self.get_contexts(message)
 
-        message.author = self.modmail_guild.me  # Fix message so commands execute properly
+        message.author = self.compbaut_guild.me  # Fix message so commands execute properly
 
         for ctx in ctxs:
             if ctx.command:
@@ -1145,7 +1145,7 @@ class ModmailBot(commands.Bot):
             return
 
         if isinstance(message.channel, discord.DMChannel):
-            return await self.process_dm_modmail(message)
+            return await self.process_dm_compbaut(message)
 
         if message.content.startswith(self.prefix):
             cmd = message.content[len(self.prefix) :].strip()
@@ -1323,7 +1323,7 @@ class ModmailBot(commands.Bot):
                 icon_url=self.guild.icon_url,
             )
             logger.info(
-                "A new thread using react to contact was blocked from %s due to disabled Modmail.",
+                "A new thread using react to contact was blocked from %s due to disabled compbaut.",
                 member,
             )
             return await member.send(embed=embed)
@@ -1342,7 +1342,7 @@ class ModmailBot(commands.Bot):
             await self.handle_reaction_events(payload)
 
     async def on_guild_channel_delete(self, channel):
-        if channel.guild != self.modmail_guild:
+        if channel.guild != self.compbaut_guild:
             return
 
         if isinstance(channel, discord.CategoryChannel):
@@ -1361,7 +1361,7 @@ class ModmailBot(commands.Bot):
             await self.config.update()
             return
 
-        audit_logs = self.modmail_guild.audit_logs(limit=10, action=discord.AuditLogAction.channel_delete)
+        audit_logs = self.compbaut_guild.audit_logs(limit=10, action=discord.AuditLogAction.channel_delete)
         entry = await audit_logs.find(lambda a: int(a.target.id) == channel.id)
 
         if entry is None:
@@ -1540,8 +1540,8 @@ class ModmailBot(commands.Bot):
         else:
             data.update({"owner_name": info.owner.name, "owner_id": info.owner.id, "team": False})
 
-        async with self.session.post("https://api.modmail.dev/metadata", json=data):
-            logger.debug("Uploading metadata to Modmail server.")
+        async with self.session.post("https://api.compbaut.dev/metadata", json=data):
+            logger.debug("Uploading metadata to compbaut server.")
 
     async def before_post_metadata(self):
         await self.wait_for_connected()
@@ -1568,7 +1568,7 @@ class ModmailBot(commands.Bot):
                     url=user["url"],
                 )
 
-                embed.set_footer(text=f"Updating Modmail v{self.version} " f"-> v{latest.version}")
+                embed.set_footer(text=f"Updating compbaut v{self.version} " f"-> v{latest.version}")
 
                 embed.description = latest.description
                 for name, value in latest.fields.items():
@@ -1614,7 +1614,7 @@ class ModmailBot(commands.Bot):
                     channel = self.update_channel
                     if self.hosting_method in (HostingMethod.PM2, HostingMethod.SYSTEMD):
                         embed = discord.Embed(title="Bot has been updated", color=self.main_color)
-                        embed.set_footer(text=f"Updating Modmail v{self.version} " f"-> v{latest.version}")
+                        embed.set_footer(text=f"Updating compbaut v{self.version} " f"-> v{latest.version}")
                         if self.config["update_notifications"]:
                             await channel.send(embed=embed)
                     else:
@@ -1623,7 +1623,7 @@ class ModmailBot(commands.Bot):
                             description="If you do not have an auto-restart setup, please manually start the bot.",
                             color=self.main_color,
                         )
-                        embed.set_footer(text=f"Updating Modmail v{self.version} " f"-> v{latest.version}")
+                        embed.set_footer(text=f"Updating compbaut v{self.version} " f"-> v{latest.version}")
                         if self.config["update_notifications"]:
                             await channel.send(embed=embed)
                     return await self.close()
@@ -1649,7 +1649,7 @@ class ModmailBot(commands.Bot):
         """Sanitises a username for use with text channel names
 
         Placed in main bot class to be extendable to plugins"""
-        guild = self.modmail_guild
+        guild = self.compbaut_guild
 
         if force_null:
             name = new_name = "null"
@@ -1694,7 +1694,7 @@ def main():
         )
         sys.exit(0)
 
-    bot = ModmailBot()
+    bot = compbautBot()
     bot.run()
 
 

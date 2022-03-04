@@ -30,7 +30,7 @@ logger = getLogger(__name__)
 
 
 class Thread:
-    """Represents a discord Modmail thread"""
+    """Represents a discord compbaut thread"""
 
     def __init__(
         self,
@@ -146,7 +146,7 @@ class Thread:
         recipient = self.recipient
 
         # in case it creates a channel outside of category
-        overwrites = {self.bot.modmail_guild.default_role: discord.PermissionOverwrite(read_messages=False)}
+        overwrites = {self.bot.compbaut_guild.default_role: discord.PermissionOverwrite(read_messages=False)}
 
         category = category or self.bot.main_category
 
@@ -1150,14 +1150,14 @@ class Thread:
 
 
 class ThreadManager:
-    """Class that handles storing, finding and creating Modmail threads."""
+    """Class that handles storing, finding and creating compbaut threads."""
 
     def __init__(self, bot):
         self.bot = bot
         self.cache = {}
 
     async def populate_cache(self) -> None:
-        for channel in self.bot.modmail_guild.text_channels:
+        for channel in self.bot.compbaut_guild.text_channels:
             await self.find(channel=channel)
 
     def __len__(self):
@@ -1208,7 +1208,7 @@ class ThreadManager:
         else:
             channel = discord.utils.find(
                 lambda x: str(recipient_id) in x.topic if x.topic else False,
-                self.bot.modmail_guild.text_channels,
+                self.bot.compbaut_guild.text_channels,
             )
 
             if channel:
@@ -1272,7 +1272,7 @@ class ThreadManager:
         category: discord.CategoryChannel = None,
         manual_trigger: bool = True,
     ) -> Thread:
-        """Creates a Modmail thread"""
+        """Creates a compbaut thread"""
 
         # checks for existing thread in cache
         thread = self.cache.get(recipient.id)

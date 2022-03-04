@@ -13,12 +13,12 @@ logger = getLogger(__name__)
 
 class Version:
     """
-    This class represents a single version of Modmail.
+    This class represents a single version of compbaut.
 
     Parameters
     ----------
     bot : Bot
-        The Modmail bot.
+        The compbaut bot.
     version : str
         The version string (ie. "v2.12.0").
     lines : str
@@ -27,7 +27,7 @@ class Version:
     Attributes
     ----------
     bot : Bot
-        The Modmail bot.
+        The compbaut bot.
     version : str
         The version string (ie. "v2.12.0").
     lines : str
@@ -53,7 +53,7 @@ class Version:
         self.version = version.lstrip("vV")
         self.lines = lines.strip()
         self.fields = {}
-        self.changelog_url = f"https://github.com/kyb3r/modmail/blob/{branch}/CHANGELOG.md"
+        self.changelog_url = f"https://github.com/kyb3r/compbaut/blob/{branch}/CHANGELOG.md"
         self.description = ""
         self.parse()
 
@@ -103,19 +103,19 @@ class Version:
 
 class Changelog:
     """
-    This class represents the complete changelog of Modmail.
+    This class represents the complete changelog of compbaut.
 
     Parameters
     ----------
     bot : Bot
-        The Modmail bot.
+        The compbaut bot.
     text : str
         The complete changelog text.
 
     Attributes
     ----------
     bot : Bot
-        The Modmail bot.
+        The compbaut bot.
     text : str
         The complete changelog text.
     versions : List[Version]
@@ -160,7 +160,7 @@ class Changelog:
         Parameters
         ----------
         bot : Bot
-            The Modmail bot.
+            The compbaut bot.
         url : str, optional
             The URL to the changelog.
 
@@ -185,7 +185,7 @@ class Changelog:
         if branch not in ("master", "development"):
             branch = "master"
 
-        url = url or f"https://raw.githubusercontent.com/kyb3r/modmail/{branch}/CHANGELOG.md"
+        url = url or f"https://raw.githubusercontent.com/kyb3r/compbaut/{branch}/CHANGELOG.md"
 
         async with await bot.session.get(url) as resp:
             return cls(bot, branch, await resp.text())

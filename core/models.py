@@ -46,7 +46,7 @@ class InvalidConfigError(commands.BadArgument):
         return discord.Embed(title="Error", description=self.msg, color=discord.Color.red())
 
 
-class ModmailLogger(logging.Logger):
+class compbautLogger(logging.Logger):
     @staticmethod
     def _debug_(*msgs):
         return f'{Fore.CYAN}{" ".join(msgs)}{Style.RESET_ALL}'
@@ -94,7 +94,7 @@ class ModmailLogger(logging.Logger):
             )
 
 
-logging.setLoggerClass(ModmailLogger)
+logging.setLoggerClass(compbautLogger)
 log_level = logging.INFO
 loggers = set()
 
@@ -108,7 +108,7 @@ ch.setFormatter(formatter)
 ch_debug = None
 
 
-def getLogger(name=None) -> ModmailLogger:
+def getLogger(name=None) -> compbautLogger:
     logger = logging.getLogger(name)
     logger.setLevel(log_level)
     logger.addHandler(ch)

@@ -109,12 +109,12 @@ class Plugin:
 
 class Plugins(commands.Cog):
     """
-    Plugins expand Modmail functionality by allowing third-party addons.
+    Plugins expand compbaut functionality by allowing third-party addons.
 
     These addons could have a range of features from moderation to simply
     making your life as a moderator easier!
     Learn how to create a plugin yourself here:
-    https://github.com/kyb3r/modmail/wiki/Plugins
+    https://github.com/kyb3r/compbaut/wiki/Plugins
     """
 
     def __init__(self, bot):
@@ -131,7 +131,7 @@ class Plugins(commands.Cog):
             logger.info("Plugins not loaded since ENABLE_PLUGINS=false.")
 
     async def populate_registry(self):
-        url = "https://raw.githubusercontent.com/kyb3r/modmail/master/plugins/registry.json"
+        url = "https://raw.githubusercontent.com/kyb3r/compbaut/master/plugins/registry.json"
         async with self.bot.session.get(url) as resp:
             self.registry = json.loads(await resp.text())
 
@@ -321,7 +321,7 @@ class Plugins(commands.Cog):
     @checks.has_permissions(PermissionLevel.OWNER)
     async def plugins(self, ctx):
         """
-        Manage plugins for Modmail.
+        Manage plugins for compbaut.
         """
 
         await ctx.send_help(ctx.command)

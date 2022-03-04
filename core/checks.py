@@ -52,9 +52,9 @@ async def check_permissions(ctx, command_name) -> bool:
     if (
         permission_level is not PermissionLevel.OWNER
         and ctx.channel.permissions_for(ctx.author).administrator
-        and ctx.guild == ctx.bot.modmail_guild
+        and ctx.guild == ctx.bot.compbaut_guild
     ):
-        # Administrators have permission to all non-owner commands in the Modmail Guild
+        # Administrators have permission to all non-owner commands in the compbaut Guild
         logger.debug("Allowed due to administrator.")
         return True
 
@@ -83,7 +83,7 @@ async def check_permissions(ctx, command_name) -> bool:
 def thread_only():
     """
     A decorator that checks if the command
-    is being ran within a Modmail thread.
+    is being ran within a compbaut thread.
     """
 
     async def predicate(ctx):
@@ -96,12 +96,12 @@ def thread_only():
         Returns
         -------
         Bool
-            `True` if the current `Context` is within a Modmail thread.
+            `True` if the current `Context` is within a compbaut thread.
             Otherwise, `False`.
         """
         return ctx.thread is not None
 
-    predicate.fail_msg = "This is not a Modmail thread."
+    predicate.fail_msg = "This is not a compbaut thread."
     return commands.check(predicate)
 
 
