@@ -25,13 +25,13 @@ version = '3.10.3'
 description = "Modmail is similar to Reddit's Modmail, both in functionality and purpose. It serves as a shared inbox for server staff to communicate with their users in a seamless way."
 license = 'AGPL-3.0-only'
 authors = [
-    'kyb3r <noemail@example.com>',
+    'DevComp <noemail@example.com>',
     '4jr <noemail@example.com>',
     'Taki <noemail@example.com>'
 ]
 readme = 'README.md'
-repository = 'https://github.com/kyb3r/modmail'
-homepage = 'https://github.com/kyb3r/modmail'
+repository = 'https://github.com/DevComp/modmail'
+homepage = 'https://github.com/DevComp/modmail'
 keywords = ['discord', 'modmail']
 
 [tool.pylint.format]

@@ -36,7 +36,7 @@
         "thumbnail_url": "https://i.imgur.com/FtRQveT.png"
     },
     "dragory-migrate": {
-        "repository": "kyb3r/modmail-plugins",
+        "repository": "DevComp/modmail-plugins",
         "branch": "master",
         "description": "Migrate your logs from Dragory's modmail bot to this one with a simple command. Added at the request of users.",
         "bot_version": "2.20.1",
