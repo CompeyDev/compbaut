@@ -94,7 +94,7 @@ class compbaut(commands.Cog):
         embed.add_field(
             name="Thanks for using our bot!",
             value="If you like what you see, consider giving the "
-            "[repo a star](https://github.com/DevComp/compbaut) :star: and if you are "
+            "[repo a star](https://github.com/kyb3r/compbaut) :star: and if you are "
             "feeling extra generous, buy us coffee on [Patreon](https://patreon.com/kyber) :heart:!",
         )
 
