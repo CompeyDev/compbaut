@@ -1,10 +1,19 @@
-{
+{   
     "close_message": {
         "repository": "python-discord/modmail-plugins",
         "branch": "main",
         "description": "Add a ?closemessage command that will close the thread after 15 minutes with a default message.",
         "bot_version": "2.20.1",
         "title": "Close message",
+        "icon_url": "https://i.imgur.com/ev7BFMz.png",
+        "thumbnail_url": "https://i.imgur.com/ev7BFMz.png"
+    },
+    "chat_welcomer": {
+        "repository": "CompeyDev/chat-welcomer",
+        "branch": "release",
+        "description": "Add a welcome system when pinged for Team Comp.",
+        "bot_version": "2.20.1",
+        "title": "Chat welcomer",
         "icon_url": "https://i.imgur.com/ev7BFMz.png",
         "thumbnail_url": "https://i.imgur.com/ev7BFMz.png"
     },

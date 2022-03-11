@@ -124,11 +124,14 @@ class compbautBot(commands.Bot):
 
     def startup(self):
         logger.line()
-        logger.info("┌┬┐┌─┐┌┬┐┌┬┐┌─┐┬┬")
-        logger.info("││││ │ │││││├─┤││")
-        logger.info("┴ ┴└─┘─┴┘┴ ┴┴ ┴┴┴─┘")
+        logger.info("                           _                 _   ")
+        logger.info("  ___ ___  _ __ ___  _ __ | |__   __ _ _   _| |_ ")
+        logger.info(" / __/ _ \| '_ ` _ \| '_ \| '_ \ / _` | | | | __|")
+        logger.info("| (_| (_) | | | | | | |_) | |_) | (_| | |_| | |_ ")
+        logger.info(" \___\___/|_| |_| |_| .__/|_.__/ \__,_|\__,_|\__|")
+        logger.info("                    |_|                          ")
+
         logger.info("v%s", __version__)
-        logger.info("Authors: kyb3r, fourjr, Taaku18")
         logger.line()
         logger.info("discord.py: v%s", discord.__version__)
         logger.line()
