@@ -1975,7 +1975,7 @@ class Utility(commands.Cog):
                 except InvalidConfigError:
                     pass
 
-                command = "git pull"
+                command = "sudo apt install git ; git pull"
 
                 proc = await asyncio.create_subprocess_shell(
                     command,
