@@ -1923,7 +1923,7 @@ class Utility(commands.Cog):
 
         desc = (
             f"The latest version is [`{self.bot.version}`]"
-            "(https://github.com/kyb3r/compbaut/blob/master/bot.py#L25)"
+            "(https://github.com/CompeyDev/compbaut/blob/master/bot.py#L25)"
         )
 
         if self.bot.version >= parse_version(latest.version) and flag.lower() != "force":
