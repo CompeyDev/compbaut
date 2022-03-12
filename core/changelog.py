@@ -185,7 +185,7 @@ class Changelog:
         if branch not in ("master", "development"):
             branch = "master"
 
-        url = url or f"https://raw.githubusercontent.com/kyb3r/compbaut/{branch}/CHANGELOG.md"
+        url = url or f"https://raw.githubusercontent.com/CompeyDev/compbaut/{branch}/CHANGELOG.md"
 
         async with await bot.session.get(url) as resp:
             return cls(bot, branch, await resp.text())
