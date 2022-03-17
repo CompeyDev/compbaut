@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+# v3.10.5
+Accidentally broke the bot while updating dependencies
+
+### Fixed
+
+- Fixed bot not replying to any commands/plugins not working.
+
 # v3.10.4
 Fixed changelog and update commands
 
